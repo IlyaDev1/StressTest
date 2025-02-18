@@ -26,7 +26,7 @@ def main():
     manager = multiprocessing.Manager()
     result_dict = manager.dict()
     for i in range(10):
-        process = multiprocessing.Process(target=client)
+        process = multiprocessing.Process(target=client, args=(result_dict, i))
         process.start()
         processes.append(process)
 
@@ -34,7 +34,7 @@ def main():
         process.join()
 
     total_requests = sum(data[0] for data in result_dict.values())
-    total_execution_time = sum((data[1] for data in result_dict.values()), timedelta)
+    total_execution_time = sum((data[1] for data in result_dict.values()), timedelta())
 
     print(f"Общее количество запросов: {total_requests}")
     print(f"Суммарное время выполнения: {total_execution_time}")
